@@ -48,8 +48,6 @@ public class PortfolioServiceImpl implements PortfolioService {
 		RiskLevelDTO riskLevelDTO = riskService.getRiskToleranceData(riskToleranceScore);
 
 		if (!ObjectUtils.isEmpty(riskLevelDTO.getTolerance_level())) {
-			System.out.println(totalAmount);
-			System.out.println(riskLevelDTO.getBonds_share());
 			portfolioDTO.setBonds_cal_val((double) Math.round(totalAmount * (riskLevelDTO.getBonds_share() / 100.0)));
 			portfolioDTO.setLarge_cap_cal_val(
 					(double) Math.round(totalAmount * (riskLevelDTO.getLarge_cap_share() / 100.0)));
@@ -184,8 +182,8 @@ public class PortfolioServiceImpl implements PortfolioService {
 	private void updateCalcuatedData(double value, Map<String, Double> differenceMap, String sourceEntity,
 			String targetEntity) {
 		differenceMap.put(targetEntity, differenceMap.get(targetEntity) + value);
-		differenceMap.put(SMALL_CAP_STRING, 0.00);
-		msgList.add(MessageFormat.format(TRANSFER_MSG, commonUtil.getCurrencyValueOf(value), SMALL_CAP_STRING, sourceEntity));
+		differenceMap.put(sourceEntity, 0.00);
+		msgList.add(MessageFormat.format(TRANSFER_MSG, commonUtil.getCurrencyValueOf(value), sourceEntity, targetEntity));
 	}
 
 	
