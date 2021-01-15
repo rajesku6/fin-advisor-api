@@ -1,11 +1,22 @@
 ------------------------------------------------------------------------------
 
 Execution Steps:
-1. Checkout and Import the project in IDE (eg. STS).
+1. Checkout (https://github.com/rajesku6/fin-advisor-api.git) and Import the project in IDE (eg. STS).
 2. Right click on Project, Select 'Run As' and  select 'Spring Boot App'
 3. Open the URL in browser - http://localhost:8082/swagger-ui.html
 
-Important Notes: Database will load automatically on server startup. 
+------------------------------------------------------------------------------
+
+Important Notes: 
+1. Database will load automatically on server startup. 
+2. System will load categories data on server startup and save it in cache.For future request, cache will serve the data.
+3. Recursive method is being used to calculate custom portfolio.
+4. Swagger to test the APIs.
+5. CORs error handling.
+6. Code reusability. 
+7. JPA integrated
+8. Inbuilt database, tables will be created automatically on server startup. 
+
 
 ------------------------------------------------------------------------------
 Assumptions:
@@ -16,7 +27,7 @@ Bonds > Large cap > Mid cap > Foreign > Small cap
 ------------------------------------------------------------------------------
 APIs Details:
 
-1. Fetch Risk All Levels
+1. Fetch Risk All Levels - GET
 Request URL: http://localhost:8082/riskLevels
 [
   {
@@ -101,7 +112,7 @@ Request URL: http://localhost:8082/riskLevels
   }
 ]
 
-2. Fetch Ideal Portfolio
+2. Fetch Ideal Portfolio  - GET
 Request URL: http://localhost:8082/getIdealPortfolio?riskToleranceScore=5&totalAmount=1000
 
 Response:
@@ -115,33 +126,16 @@ Response:
   "small_cap_cal_val": 0
 }
 
-3. Calculate Custom Portfolio
+3. Calculate Custom Portfolio - POST
 Request URL: http://localhost:8082/calculateCustomPortfolio
 
 Request Body: 
 {
   "bonds_custom_val": 12,
-  "bonds_diff_val": 0,
   "foreign_cap_custom_val": 43,
-  "foreign_cap_diff_val": 0,
-  "idealPortfolioDTO": {
-    "bonds_cal_val": 0,
-    "foreign_cap_cal_val": 0,
-    "large_cap_cal_val": 0,
-    "mid_cap_cal_val": 0,
-    "small_cap_cal_val": 0,
-    "tolerance_level": 0,
-    "total_amount": 0
-  },
   "large_cap_custom_val": 25,
-  "large_cap_diff_val": 0,
   "mid_cap_custom_val": 33,
-  "mid_cap_diff_val": 0,
-  "recommendedTransferList": [
-    "string"
-  ],
   "small_cap_custom_val": 22,
-  "small_cap_dif_val": 0,
   "tolerance_level": 5
 }
 
