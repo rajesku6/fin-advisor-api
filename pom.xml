@@ -8,11 +8,11 @@
 		<version>2.3.3.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.grocery.groceryapp</groupId>
-	<artifactId>grocery-app</artifactId>
+	<groupId>com.fin.advisor</groupId>
+	<artifactId>fin-advisor-app</artifactId>
 	<version>0.0.1</version>
-	<name>grocery-app</name>
-	<description>Grocery Application</description>
+	<name>fin-advisor-app</name>
+	<description>Finance Advisor Application</description>
 
 	<properties>
 		<java.version>1.8</java.version>
