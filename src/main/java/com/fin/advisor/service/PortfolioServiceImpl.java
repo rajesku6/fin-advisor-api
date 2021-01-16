@@ -110,11 +110,16 @@ public class PortfolioServiceImpl implements PortfolioService {
 						differenceMap.get(FOREIGN_STRING), differenceMap.get(SMALL_CAP_STRING));
 			} else if (entity == LARGE_CAP_STRING) {
 				min = commonUtil.findMin(differenceMap.get(MID_CAP_STRING), differenceMap.get(FOREIGN_STRING),
-						differenceMap.get(SMALL_CAP_STRING));
+						differenceMap.get(SMALL_CAP_STRING), differenceMap.get(BONDS_STRING));
 			} else if (entity == MID_CAP_STRING) {
-				min = commonUtil.findMin(differenceMap.get(FOREIGN_STRING), differenceMap.get(SMALL_CAP_STRING));
+				min = commonUtil.findMin(differenceMap.get(FOREIGN_STRING), differenceMap.get(SMALL_CAP_STRING),
+						differenceMap.get(BONDS_STRING), differenceMap.get(LARGE_CAP_STRING));
 			} else if (entity == FOREIGN_STRING) {
-				min = differenceMap.get(SMALL_CAP_STRING);
+				min = commonUtil.findMin(differenceMap.get(LARGE_CAP_STRING), differenceMap.get(MID_CAP_STRING),
+						differenceMap.get(BONDS_STRING), differenceMap.get(SMALL_CAP_STRING));
+			} else {
+				min = commonUtil.findMin(differenceMap.get(LARGE_CAP_STRING), differenceMap.get(MID_CAP_STRING),
+						differenceMap.get(FOREIGN_STRING), differenceMap.get(BONDS_STRING));
 			}
 
 			if (differenceMap.get(SMALL_CAP_STRING) != 0.00 && differenceMap.get(SMALL_CAP_STRING) == min) {
@@ -171,6 +176,20 @@ public class PortfolioServiceImpl implements PortfolioService {
 					msgList.add(MessageFormat.format(TRANSFER_MSG, commonUtil.getCurrencyValueOf(differenceMap.get(entity)),
 							LARGE_CAP_STRING, entity));
 					differenceMap.put(LARGE_CAP_STRING, differenceMap.get(entity) + min);
+					differenceMap.put(entity, 0.00);
+
+				}
+			}
+			
+			if (differenceMap.get(BONDS_STRING) != 0.00 && differenceMap.get(BONDS_STRING) == min) {
+				if (differenceMap.get(entity) + min == 0.00) {
+					updateCalcuatedData(min, differenceMap, BONDS_STRING, entity);
+				} else if (differenceMap.get(entity) + min > 0.00) {
+					updateCalcuatedData(min, differenceMap, BONDS_STRING, entity);
+				} else {
+					msgList.add(MessageFormat.format(TRANSFER_MSG, commonUtil.getCurrencyValueOf(differenceMap.get(entity)),
+							BONDS_STRING, entity));
+					differenceMap.put(BONDS_STRING, differenceMap.get(entity) + min);
 					differenceMap.put(entity, 0.00);
 
 				}

@@ -14,9 +14,9 @@ public class Test {
 	static List<String> msgList = new ArrayList<>();
 
 	public static void main(String[] args) {
-		Double B = 42.00;
-		Double L= 2.00;
-		Double M = -6.00;
+		Double B = -1.00;
+		Double L= 44.00;
+		Double M = -5.00;
 		Double F =-16.00;
 		Double S = -22.00;
 				
@@ -113,13 +113,17 @@ public class Test {
 					newDifferenceMap.get("ForeignCap"), newDifferenceMap.get("SmallCap"));			
 			} else if(entity =="LargeCap") {
 				min = findMin(newDifferenceMap.get("MidCap"),
-						newDifferenceMap.get("ForeignCap"), newDifferenceMap.get("SmallCap"));
+						newDifferenceMap.get("ForeignCap"), newDifferenceMap.get("SmallCap") , newDifferenceMap.get("Bonds"));
 			} else if(entity =="MidCap") {
 				min = findMin(
-						newDifferenceMap.get("ForeignCap"), newDifferenceMap.get("SmallCap"));
-			} else if (entity =="ForeignCap") {
-				min = newDifferenceMap.get("SmallCap");
-			} 
+						newDifferenceMap.get("ForeignCap"), newDifferenceMap.get("SmallCap"),  newDifferenceMap.get("LargeCap"), newDifferenceMap.get("Bonds"));
+			} else if (entity =="ForeignCap" ) {
+				min = findMin(
+						newDifferenceMap.get("SmallCap"), newDifferenceMap.get("MidCap"),  newDifferenceMap.get("LargeCap"), newDifferenceMap.get("Bonds"));
+			}  else {
+				min = findMin(
+						newDifferenceMap.get("ForeignCap"), newDifferenceMap.get("MidCap"),  newDifferenceMap.get("LargeCap"), newDifferenceMap.get("Bonds"));
+			}
 			
 			
 			if(newDifferenceMap.get("SmallCap") != 0.00 && newDifferenceMap.get("SmallCap") == min ) {
@@ -216,6 +220,30 @@ public class Test {
 					System.out.println("4.3");
 					msgList.add("Transfer "+getCurrencyValueOf(newDifferenceMap.get(entity)) + " from LargeCap to "+entity);
 					newDifferenceMap.put("LargeCap", newDifferenceMap.get(entity) + min);
+					newDifferenceMap.put(entity, 0.00);
+
+				}
+			}
+			
+			if(newDifferenceMap.get("Bonds") != 0.00 &&  newDifferenceMap.get("Bonds") == min ) {
+				System.out.println("5");
+				if(newDifferenceMap.get(entity) + min == 0.00) {
+					System.out.println("5.1");
+					newDifferenceMap.put(entity, newDifferenceMap.get(entity) + min);
+					newDifferenceMap.put("Bonds", 0.00);
+					msgList.add("Transfer "+getCurrencyValueOf(min)+ " from Bonds to "+entity);
+
+
+				} else if(newDifferenceMap.get(entity) + min > 0.00) {
+					System.out.println("5.2");
+					newDifferenceMap.put(entity, newDifferenceMap.get(entity) + min);
+					newDifferenceMap.put("Bonds", 0.00);
+					msgList.add("Transfer "+getCurrencyValueOf(min)+ " from Bonds to "+entity);
+
+				} else {
+					System.out.println("5.3");
+					msgList.add("Transfer "+getCurrencyValueOf(newDifferenceMap.get(entity)) + " from Bonds to "+entity);
+					newDifferenceMap.put("Bonds", newDifferenceMap.get(entity) + min);
 					newDifferenceMap.put(entity, 0.00);
 
 				}
